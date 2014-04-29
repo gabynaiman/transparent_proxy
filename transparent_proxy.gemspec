@@ -1,6 +1,11 @@
+# coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'transparent_proxy'
+
 Gem::Specification.new do |spec|
   spec.name          = 'transparent_proxy'
-  spec.version       = '0.0.1'
+  spec.version       = TransparentProxy::VERSION
   spec.authors       = ['Gabriel Naiman']
   spec.email         = ['gabynaiman@gmail.com']
   spec.description   = 'Transparent proxy'

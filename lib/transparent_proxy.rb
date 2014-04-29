@@ -1,5 +1,7 @@
 class TransparentProxy
 
+  VERSION = '0.0.2'
+
   proxy_methods = [:class, :methods, :respond_to?]
 
   proxy_methods.each { |m| alias_method "proxy_#{m}".to_sym, m }
