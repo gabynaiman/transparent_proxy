@@ -4,7 +4,7 @@ class TransparentProxy
 
   proxy_methods.each { |m| alias_method "proxy_#{m}".to_sym, m }
   
-  safe_methods = [:__send__, :__id__, :object_id, :tap] + proxy_methods.map { |m| "proxy_#{m}".to_sym }
+  safe_methods = [:__send__, :send, :__id__, :object_id, :tap] + proxy_methods.map { |m| "proxy_#{m}".to_sym }
 
   instance_methods.reject { |m| safe_methods.include? m }.
                    each   { |m| undef_method m }
