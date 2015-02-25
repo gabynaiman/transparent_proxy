@@ -2,15 +2,20 @@ require 'minitest_helper'
 
 describe TransparentProxy do
 
-  it 'Transparent' do
-    proxy = TransparentProxy.new 1
+  samples = {
+    'Transparent' => TransparentProxy.new(2),
+    'Lazy' => TransparentProxy.new { 1 + 1 }
+  }
 
-    proxy.must_equal 1
-    (proxy + 1).must_equal 2
-    proxy.class.must_equal Fixnum
-    proxy.inspect.must_equal 1.inspect
-    proxy.methods.must_equal proxy.proxy_methods | 1.methods
-    proxy.respond_to?(:+).must_equal true
+  samples.each do |label, proxy|
+    it label do
+      proxy.must_equal 2
+      (proxy + 1).must_equal 3
+      proxy.class.must_equal Fixnum
+      proxy.inspect.must_equal 2.inspect
+      proxy.methods.must_equal proxy.proxy_methods | 2.methods
+      proxy.respond_to?(:+).must_equal true
+    end
   end
   
   it 'Proxy methods' do
