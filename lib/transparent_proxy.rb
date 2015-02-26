@@ -12,7 +12,7 @@ class TransparentProxy
                    each   { |m| undef_method m }
 
   def inspect
-    __target__.inspect
+    __getobj__.inspect
   end
 
   def proxy_inspect
@@ -20,11 +20,11 @@ class TransparentProxy
   end
 
   def methods(*args)
-    proxy_methods(*args) | __target__.methods(*args)
+    proxy_methods(*args) | __getobj__.methods(*args)
   end
 
   def respond_to?(*args)
-    proxy_respond_to?(*args) || __target__.respond_to?(*args)
+    proxy_respond_to?(*args) || __getobj__.respond_to?(*args)
   end
 
   def proxy?
@@ -34,16 +34,15 @@ class TransparentProxy
   private
 
   def initialize(object=nil, &block)
-    @target = object
-    @target_block = block
+    @lazy_object = block_given? ? block : ->() { object }
   end
 
-  def __target__
-    @target ||= @target_block.call
+  def __getobj__
+    @object ||= @lazy_object.call
   end
 
   def method_missing(method, *args, &block)
-    __target__.send(method, *args, &block)
+    __getobj__.send(method, *args, &block)
   end
 
 end
