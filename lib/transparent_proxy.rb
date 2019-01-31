@@ -1,6 +1,6 @@
 class TransparentProxy
 
-  VERSION = '0.0.4'
+  VERSION = '0.0.5'
 
   proxy_methods = [:class, :methods, :respond_to?]
 
