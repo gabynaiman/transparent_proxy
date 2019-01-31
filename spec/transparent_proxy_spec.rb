@@ -11,7 +11,7 @@ describe TransparentProxy do
     it label do
       proxy.must_equal 2
       (proxy + 1).must_equal 3
-      proxy.class.must_equal Fixnum
+      proxy.class.must_equal Integer
       proxy.inspect.must_equal 2.inspect
       proxy.methods.must_equal proxy.proxy_methods | 2.methods
       proxy.respond_to?(:+).must_equal true
@@ -23,10 +23,11 @@ describe TransparentProxy do
 
     proxy.proxy?.must_equal true
     proxy.proxy_class.must_equal TransparentProxy
-    proxy.proxy_inspect.must_match /#<TransparentProxy @object=1>/
+    proxy.proxy_inspect.must_match(/#<TransparentProxy @object=1>/)
     proxy.proxy_methods.must_include_all [:__send__, :__id__, :object_id, :tap]
     proxy.proxy_respond_to?(:object_id).must_equal true
     proxy.proxy_respond_to?(:+).must_equal false
+    Marshal.load(Marshal.dump(proxy)).must_equal 1
   end
 
   it 'Subclass' do

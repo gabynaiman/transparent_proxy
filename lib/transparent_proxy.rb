@@ -34,11 +34,11 @@ class TransparentProxy
   private
 
   def initialize(object=nil, &block)
-    @lazy_object = block_given? ? block : ->() { object }
+    @lazy_object = block_given? ? block : object
   end
 
   def __getobj__
-    @object ||= @lazy_object.call
+    @object ||= @lazy_object.is_a?(Proc) ? @lazy_object.call : @lazy_object
   end
 
   def method_missing(method, *args, &block)
